@@ -1,4 +1,3 @@
-
 import { WeatherData, LocationSearchResult, WeatherCondition } from '../types/weather';
 
 // This is a mock API for demonstration purposes
@@ -230,6 +229,112 @@ const mockLocationData: Record<string, WeatherData> = {
       condition: day.day === 'Today' ? 'clear' : day.condition,
     })),
   },
+  
+  'dubai': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Dubai',
+      region: 'Dubai',
+      country: 'United Arab Emirates',
+      latitude: 25.2048,
+      longitude: 55.2708,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 95,
+      feelsLike: 98,
+      humidity: 45,
+      condition: 'clear',
+      description: 'Sunny and hot',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: day.tempHigh + 20,
+      tempLow: day.tempLow + 15,
+      condition: day.day === 'Today' ? 'clear' : day.condition,
+      precipitation: day.day === 'Today' ? 0 : day.precipitation,
+    })),
+  },
+  
+  'cairo': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Cairo',
+      region: 'Cairo Governorate',
+      country: 'Egypt',
+      latitude: 30.0444,
+      longitude: 31.2357,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 90,
+      feelsLike: 92,
+      humidity: 40,
+      condition: 'clear',
+      description: 'Hot and dry',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: day.tempHigh + 15,
+      tempLow: day.tempLow + 12,
+      condition: day.day === 'Today' ? 'clear' : day.condition,
+    })),
+  },
+  
+  'riyadh': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Riyadh',
+      region: 'Riyadh Province',
+      country: 'Saudi Arabia',
+      latitude: 24.7136,
+      longitude: 46.6753,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 99,
+      feelsLike: 100,
+      humidity: 20,
+      condition: 'clear',
+      description: 'Very hot',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: day.tempHigh + 22,
+      tempLow: day.tempLow + 18,
+      condition: day.day === 'Today' ? 'clear' : day.condition,
+      precipitation: 0,
+    })),
+  },
+  
+  'doha': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Doha',
+      region: 'Doha',
+      country: 'Qatar',
+      latitude: 25.2854,
+      longitude: 51.5310,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 92,
+      feelsLike: 94,
+      humidity: 55,
+      condition: 'clear',
+      description: 'Hot and humid',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: day.tempHigh + 18,
+      tempLow: day.tempLow + 14,
+      condition: day.day === 'Today' ? 'clear' : day.condition,
+    })),
+  },
 };
 
 // Mock location search results
@@ -274,6 +379,55 @@ const mockSearchResults: LocationSearchResult[] = [
     latitude: -33.8688,
     longitude: 151.2093,
   },
+  
+  {
+    id: 'dubai',
+    name: 'Dubai',
+    region: 'Dubai',
+    country: 'United Arab Emirates',
+    latitude: 25.2048,
+    longitude: 55.2708,
+  },
+  {
+    id: 'cairo',
+    name: 'Cairo',
+    region: 'Cairo Governorate',
+    country: 'Egypt',
+    latitude: 30.0444,
+    longitude: 31.2357,
+  },
+  {
+    id: 'riyadh',
+    name: 'Riyadh',
+    region: 'Riyadh Province',
+    country: 'Saudi Arabia',
+    latitude: 24.7136,
+    longitude: 46.6753,
+  },
+  {
+    id: 'doha',
+    name: 'Doha',
+    region: 'Doha',
+    country: 'Qatar',
+    latitude: 25.2854,
+    longitude: 51.5310,
+  },
+  {
+    id: 'marrakech',
+    name: 'مراكش',  // Marrakech in Arabic
+    region: 'Marrakech-Safi',
+    country: 'Morocco',
+    latitude: 31.6295,
+    longitude: -7.9811,
+  },
+  {
+    id: 'amman',
+    name: 'عمّان',  // Amman in Arabic
+    region: 'Amman Governorate',
+    country: 'Jordan',
+    latitude: 31.9454,
+    longitude: 35.9284,
+  },
 ];
 
 // Helper function to get day name
@@ -295,7 +449,7 @@ export const getWeatherData = async (location?: string): Promise<WeatherData> =>
   });
 };
 
-// Function to search for locations
+// Improve the searchLocations function to better handle international characters
 export const searchLocations = async (query: string): Promise<LocationSearchResult[]> => {
   return new Promise((resolve) => {
     // Simulate API call delay
@@ -305,10 +459,13 @@ export const searchLocations = async (query: string): Promise<LocationSearchResu
         return;
       }
       
+      // Normalize the search query for better matching with international characters
+      const normalizedQuery = query.toLowerCase().trim();
+      
       const results = mockSearchResults.filter(
-        location => location.name.toLowerCase().includes(query.toLowerCase()) ||
-                   location.region.toLowerCase().includes(query.toLowerCase()) ||
-                   location.country.toLowerCase().includes(query.toLowerCase())
+        location => location.name.toLowerCase().includes(normalizedQuery) ||
+                   location.region.toLowerCase().includes(normalizedQuery) ||
+                   location.country.toLowerCase().includes(normalizedQuery)
       );
       resolve(results);
     }, 500);
