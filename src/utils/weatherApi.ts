@@ -150,7 +150,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh - 11, // Converting to Celsius
       tempLow: day.tempLow - 11,
-      condition: day.day === 'Today' ? 'fog' : day.condition,
+      condition: day.day === 'Today' ? 'fog' as WeatherCondition : day.condition,
     })),
   },
   'london': {
@@ -175,7 +175,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh - 15,
       tempLow: day.tempLow - 13,
-      condition: day.day === 'Today' || day.day === 'Tomorrow' ? 'rain' : day.condition,
+      condition: (day.day === 'Today' || day.day === 'Tomorrow' ? 'rain' : day.condition) as WeatherCondition,
       precipitation: day.day === 'Today' || day.day === 'Tomorrow' ? 80 : day.precipitation,
     })),
   },
@@ -201,7 +201,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 6,
       tempLow: day.tempLow + 8,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
     })),
   },
   'sydney': {
@@ -226,7 +226,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 2,
       tempLow: day.tempLow + 4,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
     })),
   },
   
@@ -252,7 +252,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 20,
       tempLow: day.tempLow + 15,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
       precipitation: day.day === 'Today' ? 0 : day.precipitation,
     })),
   },
@@ -279,7 +279,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 15,
       tempLow: day.tempLow + 12,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
     })),
   },
   
@@ -305,7 +305,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 22,
       tempLow: day.tempLow + 18,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
       precipitation: 0,
     })),
   },
@@ -332,7 +332,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: day.tempHigh + 18,
       tempLow: day.tempLow + 14,
-      condition: day.day === 'Today' ? 'clear' : day.condition,
+      condition: day.day === 'Today' ? 'clear' as WeatherCondition : day.condition,
     })),
   },
   
@@ -358,6 +358,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 16 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 5) - 2),
       tempLow: 10 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+      condition: mockWeatherData.daily[0].condition
     })),
   },
   'berlin': {
@@ -382,6 +383,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 13 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 4) - 2),
       tempLow: 7 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+      condition: mockWeatherData.daily[0].condition
     })),
   },
   'moscow': {
@@ -406,7 +408,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 7 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
       tempLow: 0 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 2),
-      condition: ['snow', 'cloudy', 'partly-cloudy'][Math.floor(Math.random() * 3)],
+      condition: ['snow', 'cloudy', 'partly-cloudy'][Math.floor(Math.random() * 3)] as WeatherCondition,
     })),
   },
   'mumbai': {
@@ -431,6 +433,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 33 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2)),
       tempLow: 28 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
+      condition: day.condition as WeatherCondition,
     })),
   },
   'mexico-city': {
@@ -455,6 +458,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 25 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
       tempLow: 18 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
+      condition: mockWeatherData.daily[0].condition
     })),
   },
   'sao-paulo': {
@@ -479,7 +483,7 @@ const mockLocationData: Record<string, WeatherData> = {
       ...day,
       tempHigh: 29 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
       tempLow: 22 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
-      condition: ['rain', 'showers', 'cloudy'][Math.floor(Math.random() * 3)],
+      condition: ['rain', 'showers', 'cloudy'][Math.floor(Math.random() * 3)] as WeatherCondition,
     })),
   },
 };

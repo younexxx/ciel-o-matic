@@ -1,3 +1,4 @@
+
 export type WeatherCondition = 
   | 'clear'
   | 'partly-cloudy'
