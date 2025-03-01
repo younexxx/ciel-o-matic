@@ -5,8 +5,9 @@ import ForecastCard from '../components/ForecastCard';
 import SearchBar from '../components/SearchBar';
 import LocationInfo from '../components/LocationInfo';
 import WeatherIcon from '../components/WeatherIcon';
+import TemperatureUnitToggle from '../components/TemperatureUnitToggle';
 import { Loader2 } from 'lucide-react';
-import { WeatherData, LocationSearchResult } from '../types/weather';
+import { WeatherData, LocationSearchResult, TemperatureUnit } from '../types/weather';
 import { getWeatherData } from '../utils/weatherApi';
 import { useToast } from '@/hooks/use-toast';
 
@@ -14,6 +15,7 @@ const Index = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [temperatureUnit, setTemperatureUnit] = useState<TemperatureUnit>('celsius');
   const { toast } = useToast();
   
   const fetchWeatherData = async (locationId?: string) => {
@@ -47,13 +49,30 @@ const Index = () => {
       description: `Weather data for ${location.name} has been loaded.`,
     });
   };
+
+  const handleUnitToggle = (unit: TemperatureUnit) => {
+    setTemperatureUnit(unit);
+    toast({
+      title: 'Unit changed',
+      description: `Temperature unit changed to ${unit === 'celsius' ? 'Celsius' : 'Fahrenheit'}.`,
+    });
+  };
+  
+  // Convert temperature based on selected unit
+  const convertTemperature = (tempC: number): number => {
+    if (temperatureUnit === 'celsius') return tempC;
+    return (tempC * 9/5) + 32;
+  };
   
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h1 className="text-2xl font-medium">Weather Forecast</h1>
-          <SearchBar onLocationSelect={handleLocationSelect} className="w-full sm:w-64 md:w-80" />
+          <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <TemperatureUnitToggle unit={temperatureUnit} onToggle={handleUnitToggle} />
+            <SearchBar onLocationSelect={handleLocationSelect} className="w-full sm:w-64 md:w-80" />
+          </div>
         </div>
         
         {isLoading ? (
@@ -83,7 +102,14 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="md:col-span-2">
-                <WeatherCard weather={weatherData.current} />
+                <WeatherCard 
+                  weather={{
+                    ...weatherData.current,
+                    temperature: convertTemperature(weatherData.current.temperature),
+                    feelsLike: convertTemperature(weatherData.current.feelsLike)
+                  }} 
+                  temperatureUnit={temperatureUnit}
+                />
                 
                 <div className="mt-6 glass-card rounded-2xl overflow-hidden p-6">
                   <h3 className="text-lg font-medium mb-4">Hourly Forecast</h3>
@@ -102,7 +128,7 @@ const Index = () => {
                             size={28} 
                             className="my-2"
                           />
-                          <div className="text-sm">{Math.round(hour.temperature)}°</div>
+                          <div className="text-sm">{Math.round(convertTemperature(hour.temperature))}°{temperatureUnit === 'celsius' ? 'C' : 'F'}</div>
                           <div className="text-xs text-muted-foreground">{hour.precipitation}%</div>
                         </div>
                       ))}
@@ -112,7 +138,14 @@ const Index = () => {
               </div>
               
               <div className="md:col-span-1">
-                <ForecastCard forecast={weatherData.daily} />
+                <ForecastCard 
+                  forecast={weatherData.daily.map(day => ({
+                    ...day,
+                    tempHigh: convertTemperature(day.tempHigh),
+                    tempLow: convertTemperature(day.tempLow)
+                  }))} 
+                  temperatureUnit={temperatureUnit}
+                />
               </div>
             </div>
           </div>

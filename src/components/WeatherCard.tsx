@@ -2,15 +2,20 @@
 import React from 'react';
 import { Wind, Droplets, Thermometer } from 'lucide-react';
 import WeatherIcon from './WeatherIcon';
-import { CurrentWeather, WeatherCondition } from '../types/weather';
+import { CurrentWeather, WeatherCondition, TemperatureUnit } from '../types/weather';
 import { getWeatherGradientClass } from '../utils/weatherApi';
 
 interface WeatherCardProps {
   weather: CurrentWeather;
+  temperatureUnit?: TemperatureUnit;
   className?: string;
 }
 
-const WeatherCard: React.FC<WeatherCardProps> = ({ weather, className = "" }) => {
+const WeatherCard: React.FC<WeatherCardProps> = ({ 
+  weather, 
+  temperatureUnit = 'celsius',
+  className = "" 
+}) => {
   const gradientClass = getWeatherGradientClass(weather.condition);
   
   return (
@@ -27,13 +32,13 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather, className = "" }) =>
         
         <div className="text-center">
           <div className="text-6xl font-light tracking-tighter animate-fade-in">
-            {Math.round(weather.temperature)}°
+            {Math.round(weather.temperature)}°{temperatureUnit === 'celsius' ? 'C' : 'F'}
           </div>
           <div className="text-lg font-medium capitalize mt-1 animate-fade-in">
             {weather.description}
           </div>
           <div className="text-sm text-muted-foreground mt-1 animate-fade-in">
-            Feels like {Math.round(weather.feelsLike)}°
+            Feels like {Math.round(weather.feelsLike)}°{temperatureUnit === 'celsius' ? 'C' : 'F'}
           </div>
         </div>
         

@@ -1,45 +1,61 @@
 
 import React from 'react';
-import { DailyForecast } from '../types/weather';
+import { DailyForecast, TemperatureUnit } from '../types/weather';
 import WeatherIcon from './WeatherIcon';
 
 interface ForecastCardProps {
   forecast: DailyForecast[];
+  temperatureUnit?: TemperatureUnit;
   className?: string;
 }
 
-const ForecastCard: React.FC<ForecastCardProps> = ({ forecast, className = "" }) => {
+const ForecastCard: React.FC<ForecastCardProps> = ({ 
+  forecast, 
+  temperatureUnit = 'celsius',
+  className = "" 
+}) => {
   return (
-    <div className={`glass-card rounded-2xl overflow-hidden p-6 ${className}`}>
-      <h3 className="text-lg font-medium mb-4">7-Day Forecast</h3>
+    <div className={`glass-card rounded-2xl overflow-hidden p-6 h-full ${className}`}>
+      <h3 className="text-lg font-medium mb-6">7-Day Forecast</h3>
       
-      <div className="space-y-4">
+      <div className="space-y-6">
         {forecast.map((day, index) => (
-          <div 
-            key={day.date} 
-            className={`flex items-center justify-between animate-fade-in`}
-            style={{ animationDelay: `${index * 50}ms` }}
+          <div
+            key={day.date}
+            className="flex items-center justify-between"
+            style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex-1">
-              <div className="font-medium">
-                {day.day}
-              </div>
+              <div className="font-medium">{day.day}</div>
               <div className="text-xs text-muted-foreground">
-                {new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                {day.precipitation > 0 ? `${day.precipitation}% ` : ''}
+                {day.humidity}% humidity
               </div>
             </div>
             
-            <div className="flex items-center space-x-2 flex-1 justify-center">
+            <div className="flex items-center space-x-4">
+              <div className="text-sm text-muted-foreground text-right w-10">
+                {Math.round(day.tempLow)}°
+              </div>
+              <div className="w-32 h-1.5 rounded-full bg-secondary/50 relative">
+                <div 
+                  className="absolute h-1.5 rounded-full bg-primary"
+                  style={{
+                    left: `${Math.min(100, Math.max(0, (day.tempLow / (day.tempHigh || 1)) * 100))}%`,
+                    right: `${Math.min(100, Math.max(0, 100 - (day.tempHigh / (day.tempHigh || 1)) * 100))}%`
+                  }}
+                />
+              </div>
+              <div className="text-sm font-medium text-right w-10">
+                {Math.round(day.tempHigh)}°
+              </div>
               <WeatherIcon condition={day.condition} size={24} />
-              <span className="text-xs text-muted-foreground">{day.precipitation}%</span>
-            </div>
-            
-            <div className="flex space-x-2 justify-end flex-1">
-              <span className="font-medium">{Math.round(day.tempHigh)}°</span>
-              <span className="text-muted-foreground">{Math.round(day.tempLow)}°</span>
             </div>
           </div>
         ))}
+      </div>
+      <div className="text-xs text-muted-foreground text-right mt-4">
+        All temperatures in °{temperatureUnit === 'celsius' ? 'C' : 'F'}
       </div>
     </div>
   );

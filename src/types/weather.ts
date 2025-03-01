@@ -1,4 +1,3 @@
-
 export type WeatherCondition = 
   | 'clear'
   | 'partly-cloudy'
@@ -10,6 +9,8 @@ export type WeatherCondition =
   | 'fog'
   | 'mist'
   | 'haze';
+
+export type TemperatureUnit = 'celsius' | 'fahrenheit';
 
 export interface CurrentWeather {
   temperature: number;

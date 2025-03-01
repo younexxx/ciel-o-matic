@@ -140,16 +140,16 @@ const mockLocationData: Record<string, WeatherData> = {
     },
     current: {
       ...mockWeatherData.current,
-      temperature: 65,
-      feelsLike: 64,
+      temperature: 15, // Using Celsius as base now
+      feelsLike: 14,
       humidity: 75,
       condition: 'fog',
       description: 'Foggy',
     },
     daily: mockWeatherData.daily.map(day => ({
       ...day,
-      tempHigh: day.tempHigh - 8,
-      tempLow: day.tempLow - 5,
+      tempHigh: day.tempHigh - 11, // Converting to Celsius
+      tempLow: day.tempLow - 11,
       condition: day.day === 'Today' ? 'fog' : day.condition,
     })),
   },
@@ -165,16 +165,16 @@ const mockLocationData: Record<string, WeatherData> = {
     },
     current: {
       ...mockWeatherData.current,
-      temperature: 60,
-      feelsLike: 58,
+      temperature: 12, // Celsius
+      feelsLike: 10,
       humidity: 80,
       condition: 'rain',
       description: 'Light rain',
     },
     daily: mockWeatherData.daily.map(day => ({
       ...day,
-      tempHigh: day.tempHigh - 12,
-      tempLow: day.tempLow - 8,
+      tempHigh: day.tempHigh - 15,
+      tempLow: day.tempLow - 13,
       condition: day.day === 'Today' || day.day === 'Tomorrow' ? 'rain' : day.condition,
       precipitation: day.day === 'Today' || day.day === 'Tomorrow' ? 80 : day.precipitation,
     })),
@@ -335,6 +335,153 @@ const mockLocationData: Record<string, WeatherData> = {
       condition: day.day === 'Today' ? 'clear' : day.condition,
     })),
   },
+  
+  'paris': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Paris',
+      region: 'Île-de-France',
+      country: 'France',
+      latitude: 48.8566,
+      longitude: 2.3522,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 14,
+      feelsLike: 13,
+      humidity: 70,
+      condition: 'partly-cloudy',
+      description: 'Partly cloudy',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 16 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 5) - 2),
+      tempLow: 10 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+    })),
+  },
+  'berlin': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Berlin',
+      region: 'Berlin',
+      country: 'Germany',
+      latitude: 52.5200,
+      longitude: 13.4050,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 11,
+      feelsLike: 9,
+      humidity: 75,
+      condition: 'cloudy',
+      description: 'Overcast',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 13 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 4) - 2),
+      tempLow: 7 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+    })),
+  },
+  'moscow': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Moscow',
+      region: 'Moscow',
+      country: 'Russia',
+      latitude: 55.7558,
+      longitude: 37.6173,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 5,
+      feelsLike: 2,
+      humidity: 85,
+      condition: 'snow',
+      description: 'Light snow',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 7 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+      tempLow: 0 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 2),
+      condition: ['snow', 'cloudy', 'partly-cloudy'][Math.floor(Math.random() * 3)],
+    })),
+  },
+  'mumbai': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Mumbai',
+      region: 'Maharashtra',
+      country: 'India',
+      latitude: 19.0760,
+      longitude: 72.8777,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 32,
+      feelsLike: 35,
+      humidity: 80,
+      condition: 'clear',
+      description: 'Hot and humid',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 33 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2)),
+      tempLow: 28 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
+    })),
+  },
+  'mexico-city': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'Mexico City',
+      region: 'CDMX',
+      country: 'Mexico',
+      latitude: 19.4326,
+      longitude: -99.1332,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 23,
+      feelsLike: 24,
+      humidity: 60,
+      condition: 'clear',
+      description: 'Sunny',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 25 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+      tempLow: 18 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
+    })),
+  },
+  'sao-paulo': {
+    ...mockWeatherData,
+    location: {
+      ...mockWeatherData.location,
+      name: 'São Paulo',
+      region: 'São Paulo',
+      country: 'Brazil',
+      latitude: -23.5505,
+      longitude: -46.6333,
+    },
+    current: {
+      ...mockWeatherData.current,
+      temperature: 27,
+      feelsLike: 29,
+      humidity: 75,
+      condition: 'rain',
+      description: 'Tropical rain',
+    },
+    daily: mockWeatherData.daily.map(day => ({
+      ...day,
+      tempHigh: 29 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 3) - 1),
+      tempLow: 22 + (day.day === 'Today' ? 0 : Math.floor(Math.random() * 2) - 1),
+      condition: ['rain', 'showers', 'cloudy'][Math.floor(Math.random() * 3)],
+    })),
+  },
 };
 
 // Mock location search results
@@ -379,7 +526,6 @@ const mockSearchResults: LocationSearchResult[] = [
     latitude: -33.8688,
     longitude: 151.2093,
   },
-  
   {
     id: 'dubai',
     name: 'Dubai',
@@ -428,6 +574,103 @@ const mockSearchResults: LocationSearchResult[] = [
     latitude: 31.9454,
     longitude: 35.9284,
   },
+  // Additional international locations
+  {
+    id: 'paris',
+    name: 'Paris',
+    region: 'Île-de-France',
+    country: 'France',
+    latitude: 48.8566,
+    longitude: 2.3522,
+  },
+  {
+    id: 'berlin',
+    name: 'Berlin',
+    region: 'Berlin',
+    country: 'Germany',
+    latitude: 52.5200,
+    longitude: 13.4050,
+  },
+  {
+    id: 'moscow',
+    name: 'Москва', // Moscow in Russian
+    region: 'Moscow',
+    country: 'Russia',
+    latitude: 55.7558,
+    longitude: 37.6173,
+  },
+  {
+    id: 'mumbai',
+    name: 'मुंबई', // Mumbai in Hindi
+    region: 'Maharashtra',
+    country: 'India',
+    latitude: 19.0760,
+    longitude: 72.8777,
+  },
+  {
+    id: 'mexico-city',
+    name: 'Ciudad de México',
+    region: 'CDMX',
+    country: 'Mexico',
+    latitude: 19.4326,
+    longitude: -99.1332,
+  },
+  {
+    id: 'sao-paulo',
+    name: 'São Paulo',
+    region: 'São Paulo',
+    country: 'Brazil',
+    latitude: -23.5505,
+    longitude: -46.6333,
+  },
+  {
+    id: 'beijing',
+    name: '北京', // Beijing in Chinese
+    region: 'Beijing',
+    country: 'China',
+    latitude: 39.9042,
+    longitude: 116.4074,
+  },
+  {
+    id: 'istanbul',
+    name: 'İstanbul',
+    region: 'Istanbul',
+    country: 'Turkey',
+    latitude: 41.0082,
+    longitude: 28.9784,
+  },
+  {
+    id: 'buenos-aires',
+    name: 'Buenos Aires',
+    region: 'Buenos Aires',
+    country: 'Argentina',
+    latitude: -34.6037,
+    longitude: -58.3816,
+  },
+  {
+    id: 'cape-town',
+    name: 'Cape Town',
+    region: 'Western Cape',
+    country: 'South Africa',
+    latitude: -33.9249,
+    longitude: 18.4241,
+  },
+  {
+    id: 'bangkok',
+    name: 'กรุงเทพมหานคร', // Bangkok in Thai
+    region: 'Bangkok',
+    country: 'Thailand',
+    latitude: 13.7563,
+    longitude: 100.5018,
+  },
+  {
+    id: 'jerusalem',
+    name: 'ירושלים', // Jerusalem in Hebrew
+    region: 'Jerusalem District',
+    country: 'Israel',
+    latitude: 31.7683,
+    longitude: 35.2137,
+  },
 ];
 
 // Helper function to get day name
@@ -435,7 +678,7 @@ function getDayName(date: Date): string {
   return date.toLocaleDateString('en-US', { weekday: 'long' });
 }
 
-// Function to fetch weather data
+// Function to fetch weather data - convert from Fahrenheit to Celsius as our base unit
 export const getWeatherData = async (location?: string): Promise<WeatherData> => {
   return new Promise((resolve) => {
     // Simulate API call delay
@@ -443,7 +686,25 @@ export const getWeatherData = async (location?: string): Promise<WeatherData> =>
       if (location && mockLocationData[location.toLowerCase()]) {
         resolve(mockLocationData[location.toLowerCase()]);
       } else {
-        resolve(mockWeatherData);
+        // Convert the default weather data to use Celsius
+        const celsiusData = {
+          ...mockWeatherData,
+          current: {
+            ...mockWeatherData.current,
+            temperature: Math.round((mockWeatherData.current.temperature - 32) * 5/9),
+            feelsLike: Math.round((mockWeatherData.current.feelsLike - 32) * 5/9),
+          },
+          daily: mockWeatherData.daily.map(day => ({
+            ...day,
+            tempHigh: Math.round((day.tempHigh - 32) * 5/9),
+            tempLow: Math.round((day.tempLow - 32) * 5/9),
+          })),
+          hourly: mockWeatherData.hourly.map(hour => ({
+            ...hour,
+            temperature: Math.round((hour.temperature - 32) * 5/9),
+          })),
+        };
+        resolve(celsiusData);
       }
     }, 800);
   });
