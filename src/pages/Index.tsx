@@ -4,6 +4,7 @@ import WeatherCard from '../components/WeatherCard';
 import ForecastCard from '../components/ForecastCard';
 import SearchBar from '../components/SearchBar';
 import LocationInfo from '../components/LocationInfo';
+import WeatherIcon from '../components/WeatherIcon';
 import { Loader2 } from 'lucide-react';
 import { WeatherData, LocationSearchResult } from '../types/weather';
 import { getWeatherData } from '../utils/weatherApi';

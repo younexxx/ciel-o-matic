@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import { Search, X, Loader2, MapPin } from 'lucide-react';
 import { LocationSearchResult } from '../types/weather';
 import { searchLocations } from '../utils/weatherApi';
 
